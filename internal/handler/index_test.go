@@ -12,7 +12,6 @@ func TestSaveURL(t *testing.T) {
 	type want struct {
 		contentType string
 		statusCode  int
-		lenUrl      int
 	}
 	tests := []struct {
 		name    string
@@ -24,7 +23,6 @@ func TestSaveURL(t *testing.T) {
 			want: want{
 				contentType: "text/plain",
 				statusCode:  201,
-				lenUrl:      8,
 			},
 			request: "/",
 		}}
@@ -38,6 +36,7 @@ func TestSaveURL(t *testing.T) {
 
 			result := w.Result()
 			assert.Equal(t, tt.want.statusCode, result.StatusCode)
+			defer result.Body.Close()
 		})
 	}
 }
@@ -72,6 +71,7 @@ func TestReturnURL(t *testing.T) {
 
 			result := w.Result()
 			assert.Equal(t, tt.want.statusCode, result.StatusCode)
+			defer result.Body.Close()
 		})
 	}
 }

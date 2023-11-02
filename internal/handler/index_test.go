@@ -35,8 +35,8 @@ func TestSaveURL(t *testing.T) {
 			h(w, req)
 
 			result := w.Result()
-			assert.Equal(t, tt.want.statusCode, result.StatusCode)
 			defer result.Body.Close()
+			assert.Equal(t, tt.want.statusCode, result.StatusCode)
 		})
 	}
 }
@@ -70,8 +70,8 @@ func TestReturnURL(t *testing.T) {
 			h(w, req)
 
 			result := w.Result()
-			assert.Equal(t, tt.want.statusCode, result.StatusCode)
 			defer result.Body.Close()
+			assert.Equal(t, tt.want.statusCode, result.StatusCode)
 		})
 	}
 }

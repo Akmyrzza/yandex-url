@@ -35,12 +35,12 @@ func SaveURL(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Bad request", http.StatusBadRequest)
 	}
 
-	longUrl := string(body)
-	shortUrl := GetRandomURL()
-	urlStorage[shortUrl] = longUrl
+	longURL := string(body)
+	shortURL := GetRandomURL()
+	urlStorage[shortURL] = longURL
 
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("http://" + r.Host + "/" + shortUrl))
+	w.Write([]byte("http://" + r.Host + "/" + shortURL))
 }
 
 func GetRandomURL() string {
@@ -53,11 +53,11 @@ func GetRandomURL() string {
 }
 
 func ReturnURL(w http.ResponseWriter, r *http.Request) {
-	shortUrl := r.URL.Path[1:]
-	longUrl, ok := urlStorage[shortUrl]
+	shortURL := r.URL.Path[1:]
+	longURL, ok := urlStorage[shortURL]
 	if ok {
-		w.Header().Set("Location", longUrl)
-		http.Redirect(w, r, longUrl, http.StatusTemporaryRedirect)
+		w.Header().Set("Location", longURL)
+		http.Redirect(w, r, longURL, http.StatusTemporaryRedirect)
 	} else {
 		http.Error(w, "URL not found", http.StatusBadRequest)
 	}

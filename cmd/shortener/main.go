@@ -1,11 +1,5 @@
 package main
 
-import (
-	"net/http"
-
-	"github.com/akmyrzza/yandex-url/internal/handler"
-)
-
 func main() {
 	router := http.NewServeMux()
 	router.HandleFunc("/", Handle)
@@ -15,14 +9,4 @@ func main() {
 		panic(err)
 	}
 }
-
-func Handle(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case "POST":
-		handler.SaveURL(w, r)
-	case "GET":
-		handler.ReturnURL(w, r)
-	default:
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-	}
 }

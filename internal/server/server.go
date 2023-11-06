@@ -6,7 +6,7 @@ type Server struct {
 	server *http.Server
 }
 
-func New(h http.Handler) *Server {
+func New(h http.Handler, addr string) *Server {
 	httpServer := &http.Server{
 		Handler: h,
 	}
@@ -15,7 +15,7 @@ func New(h http.Handler) *Server {
 		server: httpServer,
 	}
 
-	s.server.Addr = "localhost:8080"
+	s.server.Addr = addr
 
 	return s
 }

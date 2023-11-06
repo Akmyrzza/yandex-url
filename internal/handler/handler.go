@@ -4,11 +4,13 @@ import "math/rand"
 
 type Handler struct {
 	StorageURL map[string]string
+	BaseURL    string
 }
 
-func New() *Handler {
+func New(BaseURL string) *Handler {
 	return &Handler{
 		StorageURL: make(map[string]string),
+		BaseURL:    BaseURL,
 	}
 }
 

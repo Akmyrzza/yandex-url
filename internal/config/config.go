@@ -19,7 +19,7 @@ func InitConfig() (*Config, error) {
 
 	flag.Parse()
 
-	if err := env.Parse(&cfg); err != nil {
+	if err := env.Parse(cfg); err != nil {
 		return nil, err
 	}
 

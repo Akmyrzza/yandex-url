@@ -1,10 +1,14 @@
 package config
 
-import "flag"
+import (
+	"flag"
+
+	"github.com/caarlos0/env/v6"
+)
 
 type Config struct {
-	ServerAddr string
-	BaseURL    string
+	ServerAddr string `env:"SERVER_ADDRESS"`
+	BaseURL    string `env:"BASE_URL"`
 }
 
 func InitConfig() (*Config, error) {
@@ -14,6 +18,11 @@ func InitConfig() (*Config, error) {
 	flag.StringVar(&cfg.BaseURL, "b", "http://localhost:8080", "base address of the resulting shortened URL")
 
 	flag.Parse()
+
+	err := env.Parse(&cfg)
+	if err != nil {
+		return nil, err
+	}
 
 	return cfg, nil
 }

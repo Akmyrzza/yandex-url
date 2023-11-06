@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -18,9 +19,10 @@ func (h *Handler) ShortURL(ctx *gin.Context) {
 	OriginalURL := strings.TrimSpace(string(body))
 	ShortURL := GetRandomURL()
 	h.StorageURL[ShortURL] = OriginalURL
+	url := fmt.Sprintf("%s/%s", h.BaseURL, ShortURL)
 
 	ctx.Header("Content-Type", "text/plain")
-	ctx.String(http.StatusCreated, h.BaseURL + "/" + ShortURL)
+	ctx.String(http.StatusCreated, url)
 }
 
 func (h *Handler) OriginalURL(ctx *gin.Context) {
@@ -39,4 +41,3 @@ func (h *Handler) OriginalURL(ctx *gin.Context) {
 	ctx.Header("Location", OriginalURL)
 	ctx.Redirect(http.StatusTemporaryRedirect, OriginalURL)
 }
-

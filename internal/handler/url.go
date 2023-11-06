@@ -18,9 +18,9 @@ func (h *Handler) ShortURL(ctx *gin.Context) {
 	OriginalURL := strings.TrimSpace(string(body))
 	ShortURL := GetRandomURL()
 	h.StorageURL[ShortURL] = OriginalURL
-
+	outputURL := fmt.Sprintf("%s/%s", o.BaseURL, shortURL)
 	ctx.Header("Content-Type", "text/plain")
-	ctx.String(http.StatusCreated, h.BaseURL + "/" + ShortURL)
+	ctx.String(http.StatusCreated, outputURL)
 }
 
 func (h *Handler) OriginalURL(ctx *gin.Context) {

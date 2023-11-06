@@ -1,5 +1,6 @@
 package main
 
+
 import (
 	"github.com/akmyrzza/yandex-url/internal/app"
 	"github.com/akmyrzza/yandex-url/internal/config"

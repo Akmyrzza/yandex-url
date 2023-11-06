@@ -20,7 +20,7 @@ func (h *Handler) ShortURL(ctx *gin.Context) {
 	h.StorageURL[ShortURL] = OriginalURL
 
 	ctx.Header("Content-Type", "text/plain")
-	ctx.String(http.StatusCreated, h.BaseURL + ShortURL)
+	ctx.String(http.StatusCreated, h.BaseURL + "/" + ShortURL)
 }
 
 func (h *Handler) OriginalURL(ctx *gin.Context) {

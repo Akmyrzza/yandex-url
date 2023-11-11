@@ -40,7 +40,7 @@ func TestHandler_ShortURL(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tt.h.StorageURL = make(map[string]string)
+			StorageURL := make(map[string]string)
 
 			r := gin.Default()
 			r.POST(tt.request, tt.h.ShortURL)
@@ -65,9 +65,9 @@ func TestHandler_ShortURL(t *testing.T) {
 
 			parts := strings.Split(shortURL, "/")
 
-			originalURL, exist := tt.h.StorageURL[parts[len(parts)-1]]
+			originalURL, exist := StorageURL[parts[len(parts)-1]]
 			if !exist {
-				require.Fail(t, "Expected short URL in urlMap", tt.h.StorageURL)
+				require.Fail(t, "Expected short URL in urlMap", StorageURL)
 			}
 
 			assert.Equal(t, tt.want.testURL, originalURL)
@@ -104,8 +104,8 @@ func TestHandler_OriginalURL(t *testing.T) {
 			r.GET("/:id", tt.h.OriginalURL)
 
 			testShortURL := "Abcdefgh"
-			tt.h.StorageURL = make(map[string]string)
-			tt.h.StorageURL[testShortURL] = tt.want.location
+			StorageURL := make(map[string]string)
+			StorageURL[testShortURL] = tt.want.location
 
 			request := httptest.NewRequest(tt.requestMethod, "/"+testShortURL, nil)
 

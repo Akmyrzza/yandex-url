@@ -1,24 +1,15 @@
 package handler
 
-import "math/rand"
+import "github.com/akmyrzza/yandex-url/internal/service"
 
 type Handler struct {
-	StorageURL map[string]string
-	BaseURL    string
+	service service.Service
+	BaseURL string
 }
 
-func New(BaseURL string) *Handler {
+func New(service service.Service, BaseURL string) *Handler {
 	return &Handler{
-		StorageURL: make(map[string]string),
-		BaseURL:    BaseURL,
+		service: service,
+		BaseURL: BaseURL,
 	}
-}
-
-func GetRandomURL() string {
-	letters := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-	b := make([]rune, 8)
-	for i := range b {
-		b[i] = letters[rand.Intn(len(letters))]
-	}
-	return string(b)
 }

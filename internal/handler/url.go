@@ -1,10 +1,8 @@
 package handler
 
 import (
-	"fmt"
 	"io"
 	"net/http"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,10 +14,7 @@ func (h *Handler) ShortURL(ctx *gin.Context) {
 		return
 	}
 
-	OriginalURL := strings.TrimSpace(string(body))
-	ShortURL := GetRandomURL()
-	h.StorageURL[ShortURL] = OriginalURL
-	url := fmt.Sprintf("%s/%s", h.BaseURL, ShortURL)
+	url := h.service.MakeShortPath(h.BaseURL, body)
 
 	ctx.Header("Content-Type", "text/plain")
 	ctx.String(http.StatusCreated, url)
@@ -32,12 +27,13 @@ func (h *Handler) OriginalURL(ctx *gin.Context) {
 		return
 	}
 
-	OriginalURL, ok := h.StorageURL[ShortURL]
+	url, ok := h.service.GetOriginalURL(ShortURL)
+
 	if !ok {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Не удалось получить оригинальную ссылку"})
 		return
 	}
 
-	ctx.Header("Location", OriginalURL)
-	ctx.Redirect(http.StatusTemporaryRedirect, OriginalURL)
+	ctx.Header("Location", url)
+	ctx.Redirect(http.StatusTemporaryRedirect, url)
 }

@@ -20,6 +20,11 @@ func New(h http.Handler, addr string) *Server {
 	return s
 }
 
-func (s *Server) Start() {
-	s.server.ListenAndServe()
+func (s *Server) Start() error {
+	err := s.server.ListenAndServe()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -1,6 +1,10 @@
 package handler
 
 import (
+	"github.com/akmyrzza/yandex-url/internal/service"
+	"github.com/akmyrzza/yandex-url/internal/storage"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -8,8 +12,6 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 func TestHandler_ShortURL(t *testing.T) {
@@ -40,11 +42,13 @@ func TestHandler_ShortURL(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			StorageURL := make(map[string]string)
 
 			r := gin.Default()
 			r.POST(tt.request, tt.h.ShortURL)
 
+			newStorage := *storage.New()
+			newService := service.New(newStorage)
+			tt.h.service = *newService
 			request := httptest.NewRequest(tt.requestMethod, tt.request, strings.NewReader(tt.want.testURL))
 
 			w := httptest.NewRecorder()
@@ -65,9 +69,9 @@ func TestHandler_ShortURL(t *testing.T) {
 
 			parts := strings.Split(shortURL, "/")
 
-			originalURL, exist := StorageURL[parts[len(parts)-1]]
+			originalURL, exist := newStorage.StorageURL[parts[len(parts)-1]]
 			if !exist {
-				require.Fail(t, "Expected short URL in urlMap", StorageURL)
+				require.Fail(t, "Expected short URL in urlMap", newStorage.StorageURL)
 			}
 
 			assert.Equal(t, tt.want.testURL, originalURL)
@@ -104,8 +108,12 @@ func TestHandler_OriginalURL(t *testing.T) {
 			r.GET("/:id", tt.h.OriginalURL)
 
 			testShortURL := "Abcdefgh"
-			StorageURL := make(map[string]string)
-			StorageURL[testShortURL] = tt.want.location
+
+			newStorage := *storage.New()
+			newStorage.StorageURL[testShortURL] = tt.want.location
+
+			newService := service.New(newStorage)
+			tt.h.service = *newService
 
 			request := httptest.NewRequest(tt.requestMethod, "/"+testShortURL, nil)
 

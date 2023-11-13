@@ -21,14 +21,14 @@ func New(strg storage.Storage) *Service {
 func (s *Service) MakeShortPath(BaseURL string, body []byte) string {
 	OriginalURL := strings.TrimSpace(string(body))
 	ShortURL := GetRandomURL()
-	s.storage.StorageURL[ShortURL] = OriginalURL
+	s.storage.SetValue(ShortURL, OriginalURL)
 	url := fmt.Sprintf("%s/%s", BaseURL, ShortURL)
 
 	return url
 }
 
 func (s *Service) GetOriginalURL(ShortURL string) (string, bool) {
-	OriginalURL, ok := s.storage.StorageURL[ShortURL]
+	OriginalURL, ok := s.storage.GetValue(ShortURL)
 	return OriginalURL, ok
 }
 

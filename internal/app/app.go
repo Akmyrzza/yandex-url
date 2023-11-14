@@ -14,7 +14,7 @@ func Run(cfg *config.Config) error {
 	srvs := service.New(*strg)
 	hndlr := handler.New(*srvs, cfg.BaseURL)
 	srv := service.NewShortener(router.InitRouter(hndlr), cfg.ServerAddr)
-	err := srv.Start()
+	err := srv.Server.ListenAndServe()
 	if err != nil {
 		panic(err)
 	}

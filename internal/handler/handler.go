@@ -1,13 +1,13 @@
 package handler
 
-import "github.com/akmyrzza/yandex-url/internal/service"
+import "github.com/akmyrzza/yandex-url/internal/shortener"
 
 type Handler struct {
-	service service.Service
+	service shortener.Service
 	BaseURL string
 }
 
-func New(service service.Service, BaseURL string) *Handler {
+func New(service shortener.Service, BaseURL string) *Handler {
 	return &Handler{
 		service: service,
 		BaseURL: BaseURL,

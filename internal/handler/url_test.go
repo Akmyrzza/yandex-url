@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/akmyrzza/yandex-url/internal/service"
+	"github.com/akmyrzza/yandex-url/internal/shortener"
 	"github.com/akmyrzza/yandex-url/internal/storage"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -47,7 +47,7 @@ func TestHandler_ShortURL(t *testing.T) {
 			r.POST(tt.request, tt.h.ShortURL)
 
 			newStorage := *storage.New()
-			newService := service.New(newStorage)
+			newService := shortener.New(newStorage)
 			tt.h.service = *newService
 			request := httptest.NewRequest(tt.requestMethod, tt.request, strings.NewReader(tt.want.testURL))
 
@@ -112,7 +112,7 @@ func TestHandler_OriginalURL(t *testing.T) {
 			newStorage := *storage.New()
 			newStorage.StorageURL[testShortURL] = tt.want.location
 
-			newService := service.New(newStorage)
+			newService := shortener.New(newStorage)
 			tt.h.service = *newService
 
 			request := httptest.NewRequest(tt.requestMethod, "/"+testShortURL, nil)

@@ -15,5 +15,4 @@ func main() {
 	if err := app.Run(cfg); err != nil {
 		panic(err)
 	}
-	//
 }

@@ -7,7 +7,7 @@ type Handler struct {
 	BaseURL string
 }
 
-func New(service shortener.Service, BaseURL string) *Handler {
+func NewHandler(service shortener.Service, BaseURL string) *Handler {
 	return &Handler{
 		service: service,
 		BaseURL: BaseURL,

@@ -12,17 +12,17 @@ type Service struct {
 	storage storage.Storage
 }
 
-func New(strg storage.Storage) *Service {
+func NewShortener(strg storage.Storage) *Service {
 	return &Service{
 		storage: strg,
 	}
 }
 
-func (s *Service) MakeShortPath(BaseURL string, body []byte) string {
-	OriginalURL := strings.TrimSpace(string(body))
-	ShortURL := GetRandomURL()
-	s.storage.SetValue(ShortURL, OriginalURL)
-	url := fmt.Sprintf("%s/%s", BaseURL, ShortURL)
+func (s *Service) MakeShortPath(baseURL string, body []byte) string {
+	originalURL := strings.TrimSpace(string(body))
+	shortURL := getRandomString()
+	s.storage.SetValue(shortURL, originalURL)
+	url := fmt.Sprintf("%s/%s", baseURL, shortURL)
 
 	return url
 }
@@ -32,7 +32,7 @@ func (s *Service) GetOriginalURL(ShortURL string) (string, bool) {
 	return OriginalURL, ok
 }
 
-func GetRandomURL() string {
+func getRandomString() string {
 	letters := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	b := make([]rune, 8)
 	for i := range b {

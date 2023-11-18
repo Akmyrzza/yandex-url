@@ -46,8 +46,8 @@ func TestHandler_ShortURL(t *testing.T) {
 			r := gin.Default()
 			r.POST(tt.request, tt.h.ShortURL)
 
-			newStorage := *storage.New()
-			newService := shortener.New(newStorage)
+			newStorage := *storage.NewStorage()
+			newService := shortener.NewShortener(newStorage)
 			tt.h.service = *newService
 			request := httptest.NewRequest(tt.requestMethod, tt.request, strings.NewReader(tt.want.testURL))
 
@@ -109,10 +109,10 @@ func TestHandler_OriginalURL(t *testing.T) {
 
 			testShortURL := "Abcdefgh"
 
-			newStorage := *storage.New()
+			newStorage := *storage.NewStorage()
 			newStorage.StorageURL[testShortURL] = tt.want.location
 
-			newService := shortener.New(newStorage)
+			newService := shortener.NewShortener(newStorage)
 			tt.h.service = *newService
 
 			request := httptest.NewRequest(tt.requestMethod, "/"+testShortURL, nil)

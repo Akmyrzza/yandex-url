@@ -4,14 +4,14 @@ type Storage struct {
 	StorageURL map[string]string
 }
 
-func New() *Storage {
+func NewStorage() *Storage {
 	return &Storage{
 		StorageURL: make(map[string]string),
 	}
 }
 
-func (s *Storage) SetValue(shortURL, OriginalURL string) {
-	s.StorageURL[shortURL] = OriginalURL
+func (s *Storage) SetValue(shortURL, originalURL string) {
+	s.StorageURL[shortURL] = originalURL
 }
 
 func (s *Storage) GetValue(shortURL string) (string, bool) {

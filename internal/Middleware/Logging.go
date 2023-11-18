@@ -1,4 +1,4 @@
-package Middleware
+package middleware
 
 import (
 	"github.com/akmyrzza/yandex-url/internal/logger"
@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func Logging(logger *logger.Logger) gin.HandlerFunc {
+func LoggingRequest(logger *logger.Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		start := time.Now()
 
